@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* ================================
+   PREMIUM AI REPORT PAGE
+================================ */
+
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    color:#4c8cff;
+    text-shadow:0 0 12px rgba(76,140,255,0.8);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    opacity:.75;
+    margin-bottom:25px;
+}
+
+/* Filter Box */
+.filter-box {
+    background: rgba(255,255,255,0.06);
+    padding: 20px;
+    border-radius: 16px;
+    border:1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+    box-shadow:0 0 20px rgba(76,140,255,0.15);
+}
+
+.filter-box input {
+    padding:10px 12px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    background:#0f1a33;
+    color:white;
+    font-size:14px;
+    border:1px solid rgba(76,140,255,0.35);
+    width:200px;
+}
+
+.filter-box button {
+    padding:10px 20px;
+    background:#4c8cff;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.2s;
+    box-shadow:0 0 10px rgba(76,140,255,0.5);
+}
+
+.filter-box button:hover {
+    transform: scale(1.05);
+}
+
+/* Table Styling */
+.table-box {
+    background: rgba(255,255,255,0.05);
+    padding:15px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    box-shadow:0 0 20px rgba(76,140,255,0.18);
+    overflow-x:auto;
+}
+
+table {
+    width:100%;
+    border-collapse: collapse;
+    margin-top:10px;
+    color:white;
+    font-size:15px;
+    animation: fadeIn .6s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+th {
+    padding:12px;
+    background:#142447;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+    text-align:left;
+}
+
+td {
+    padding:10px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+tr:hover {
+    background: rgba(76,140,255,0.08);
+}
+
+/* Export button */
+.export-btn {
+    margin-top:18px;
+    padding:10px 24px;
+    border-radius:10px;
+    background:#00d46a;
+    font-weight:600;
+    color:black;
+    box-shadow:0 0 12px rgba(0,212,106,.6);
+    border:none;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.export-btn:hover {
+    transform: scale(1.05);
+}
+</style>
+
+<!-- ===================== -->
+<!-- PAGE HEADER -->
+<!-- ===================== -->
+<h1 class="page-title">Attendance Report</h1>
+<p class="subtitle">Filter & Download Daily Attendance Data</p>
+
+<!-- ===================== -->
+<!-- FILTER BOX -->
+<!-- ===================== -->
+<div class="filter-box">
+    <form method="GET" action="/report" style="display:flex; flex-wrap:wrap; gap:15px;">
+
+        <input type="text" name="name" placeholder="Search Name" value="{{ request.args.get('name','') }}">
+
+        <input type="date" name="date_from" value="{{ request.args.get('date_from','') }}">
+
+        <input type="date" name="date_to" value="{{ request.args.get('date_to','') }}">
+
+        <button type="submit">Apply Filter</button>
+    </form>
+</div>
+
+<!-- ===================== -->
+<!-- TABLE -->
+<!-- ===================== -->
+
+<div class="table-box">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.Name }}</td>
+                <td>{{ row.Date }}</td>
+                <td>{{ row.Time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- ===================== -->
+<!-- EXPORT BUTTON -->
+<!-- ===================== -->
+<a href="/export/excel">
+    <button class="export-btn">⬇ Export Excel</button>
+</a>
+
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* =============================== */
+/*  PREMIUM ASSIGN TASK PAGE       */
+/* =============================== */
+
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color:#4c8cff;
+    text-shadow:0 0 12px rgba(76,140,255,0.85);
+}
+
+.subtitle {
+    font-size:15px;
+    opacity:.75;
+    margin-bottom:25px;
+}
+
+.card-box {
+    background: rgba(255,255,255,0.06);
+    padding:25px;
+    border-radius:18px;
+    border:1px solid rgba(76,140,255,0.25);
+    backdrop-filter: blur(14px);
+    box-shadow:0 0 30px rgba(76,140,255,0.25);
+    animation: fadeIn .6s ease;
+    max-width:550px;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; transform: translateY(12px); }
+    to { opacity:1; transform: translateY(0); }
+}
+
+label {
+    font-size:15px;
+    opacity:.9;
+}
+
+select, textarea {
+    width:100%;
+    padding:12px 14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.2);
+    margin-top:6px;
+    background:rgba(255,255,255,0.08);
+    color:white;
+    resize:none;
+    font-size:15px;
+}
+
+select:focus, textarea:focus {
+    outline:none;
+    border-color:#4c8cff;
+    box-shadow:0 0 10px rgba(76,140,255,0.7);
+}
+
+.btn-submit {
+    background:#4c8cff;
+    padding:12px 22px;
+    border:none;
+    border-radius:10px;
+    color:white;
+    font-size:15px;
+    cursor:pointer;
+    margin-top:18px;
+    width:100%;
+    transition:.2s ease;
+}
+
+.btn-submit:hover {
+    background:#2c6ae9;
+    box-shadow:0 0 16px rgba(76,140,255,0.9);
+}
+
+.status-box {
+    margin-top:14px;
+}
+
+.flash-success {
+    padding:12px;
+    background:#0fcc6f;
+    border-radius:10px;
+    margin-bottom:20px;
+    text-align:center;
+    box-shadow:0 0 12px rgba(15,204,111,0.6);
+}
+
+.flash-error {
+    padding:12px;
+    background:#ff4f4f;
+    border-radius:10px;
+    margin-bottom:20px;
+    text-align:center;
+    box-shadow:0 0 12px rgba(255,79,79,0.6);
+}
+
+</style>
+
+
+<h1 class="page-title">Assign Task</h1>
+<p class="subtitle">Admin can assign tasks to any employee.</p>
+
+<!-- FLASH MESSAGES -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for cat,msg in messages %}
+      <div class="flash-{{cat}}">{{msg}}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+<div class="card-box">
+
+    <form method="POST" action="/assign-task">
+
+        <label>Select Employee</label>
+        <select name="user" required>
+            <option value="">-- choose employee --</option>
+            {% for u in users %}
+            <option value="{{u}}">{{u}}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label>Task Description</label>
+        <textarea name="task" rows="5" placeholder="Write the task details..." required></textarea>
+
+        <div class="status-box">
+            <label>Task Status</label>
+            <select name="status">
+                <option value="Pending" selected>Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+
+        <button class="btn-submit">Assign Task</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

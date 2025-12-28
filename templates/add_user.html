@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    /* ===============================
+   PREMIUM ADD USER PAGE
+================================*/
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #4c8cff;
+        text-shadow: 0 0 15px rgba(76, 140, 255, 0.85);
+        margin-bottom: 6px;
+    }
+
+    .subtitle {
+        opacity: .75;
+        margin-bottom: 20px;
+    }
+
+    /* Form Card */
+    .form-card {
+        width: 450px;
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(12px);
+        border-radius: 18px;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 0 25px rgba(76, 140, 255, 0.18);
+        animation: slideUp .6s ease;
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(25px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 15px;
+        color: #8fbaff;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        background: #0f1a33;
+        color: white;
+        border-radius: 10px;
+        outline: none;
+        font-size: 15px;
+        border: 1px solid rgba(76, 140, 255, 0.35);
+        transition: .25s;
+    }
+
+    input:focus {
+        border-color: #4c8cff;
+        box-shadow: 0 0 12px rgba(76, 140, 255, .6);
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        background: #4c8cff;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: .25s;
+        box-shadow: 0 0 12px rgba(76, 140, 255, .6);
+    }
+
+    .btn-submit:hover {
+        transform: scale(1.05);
+    }
+
+    /* Flash Message */
+    .flashbox {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        border-left: 4px solid #4c8cff;
+    }
+</style>
+
+<h1 class="page-title">Add New User</h1>
+<p class="subtitle">Create employee login credentials</p>
+
+<div class="form-card">
+
+    {% with msgs=get_flashed_messages(with_categories=true) %}
+    {% if msgs %}
+    <div class="flashbox">
+        {% for cat,msg in msgs %}
+        <div style="color:#4c8cff;">{{ msg }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" required placeholder="Enter unique username">
+        </div>
+
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="fullname" required placeholder="Enter employee full name">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required placeholder="Create password">
+        </div>
+
+        <div class="form-group">
+            <label>Role</label>
+            <select name="role" class="input-field"
+                style="background:#0f1a33; border:1px solid rgba(76,140,255,0.35); color:white;">
+                <option value="employee">Employee</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <button class="btn-submit">Create User</button>
+    </form>
+</div>
+
+{% endblock %}

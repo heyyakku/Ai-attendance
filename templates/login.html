@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block login_content %}
+<div class="login-screen">
+    <div class="glass-card login-card animate__animated animate__fadeInUp">
+        <div class="login-header">
+            <i class="fas fa-microchip pulse"></i>
+            <h2 class="text-cyan">AI ATTENDANCE</h2>
+            <p class="text-secondary">System Authentication</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div
+            style="padding: 10px; margin-bottom: 20px; border-radius: 8px; background: rgba(255, 107, 107, 0.1); border: 1px solid #ff6b6b; color: #ff6b6b; font-size: 14px; text-align: center;">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/login">
+            <div class="input-group">
+                <input type="text" name="username" placeholder="ACCESS ID (Username)" required class="input-field">
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="SECURITY KEY (Password)" required
+                    class="input-field">
+            </div>
+
+            <button class="btn btn-cyan" type="submit" style="width: 100%; margin-top: 10px; justify-content: center;">
+                <i class="fas fa-key"></i> INITIATE LOGIN
+            </button>
+        </form>
+
+        <div style="margin-top: 30px; text-align: center; font-size: 13px; color: var(--text-secondary);">
+            <p>Authorized Personnel Only</p>
+            <p style="margin-top: 10px; opacity: 0.5;">Developed by <strong class="text-cyan">Aman Tiwari</strong></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

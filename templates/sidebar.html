@@ -1,0 +1,43 @@
+<div class="sidebar">
+    <div class="sidebar-header">
+        <i class="fas fa-microchip text-cyan pulse" style="font-size: 24px;"></i>
+        <h2 class="text-cyan">AI CORE</h2>
+    </div>
+
+    <div class="sidebar-menu">
+        <a href="/" class="{{ 'active' if request.path == '/' else '' }}">
+            <i class="fas fa-th-large"></i> <span>Dashboard</span>
+        </a>
+
+        {% if session.get('role') == 'admin' %}
+        <a href="/assign-task" class="{{ 'active' if request.path == '/assign-task' else '' }}">
+            <i class="fas fa-plus-circle"></i> <span>Assign Task</span>
+        </a>
+        <a href="/task-history" class="{{ 'active' if request.path == '/task-history' else '' }}">
+            <i class="fas fa-history"></i> <span>Task History</span>
+        </a>
+        <a href="/report" class="{{ 'active' if request.path == '/report' else '' }}">
+            <i class="fas fa-chart-line"></i> <span>System Reports</span>
+        </a>
+        <a href="/add-user" class="{{ 'active' if request.path == '/add-user' else '' }}">
+            <i class="fas fa-user-plus"></i> <span>Add Personnel</span>
+        </a>
+        {% elif session.get('role') == 'employee' %}
+        <a href="/employee-dashboard" class="{{ 'active' if request.path == '/employee-dashboard' else '' }}">
+            <i class="fas fa-user-circle"></i> <span>My Profile</span>
+        </a>
+        <a href="/mark-attendance" class="{{ 'active' if request.path == '/mark-attendance' else '' }}">
+            <i class="fas fa-fingerprint"></i> <span>Mark Presence</span>
+        </a>
+        <a href="/task-history" class="{{ 'active' if request.path == '/task-history' else '' }}">
+            <i class="fas fa-list-check"></i> <span>My Tasks</span>
+        </a>
+        {% endif %}
+
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+            <a href="/logout" style="color: #ff4d4d;">
+                <i class="fas fa-power-off"></i> <span>Terminate Session</span>
+            </a>
+        </div>
+    </div>
+</div>

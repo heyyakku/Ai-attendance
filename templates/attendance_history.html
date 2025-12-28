@@ -1,0 +1,107 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* =============================
+   PREMIUM NEON ATTENDANCE HISTORY
+============================= */
+
+.page-title {
+    font-size: 26px;
+    font-weight: 600;
+    color:#4c8cff;
+    text-shadow:0 0 15px rgba(76,140,255,0.85);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    opacity: .75;
+    margin-bottom: 25px;
+}
+
+.history-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(76,140,255,0.3);
+    box-shadow: 0 0 25px rgba(76,140,255,0.35);
+    backdrop-filter: blur(12px);
+    padding: 25px;
+    border-radius: 16px;
+    animation: fadeIn .6s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; transform: translateY(20px); }
+    to   { opacity:1; transform: translateY(0); }
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+}
+
+.table th {
+    background: rgba(76,140,255,0.2);
+    padding: 12px;
+    color:#4c8cff;
+    text-shadow:0 0 8px rgba(76,140,255,0.7);
+    font-size: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size:15px;
+}
+
+.table tr:hover {
+    background: rgba(76,140,255,0.12);
+    transition: .25s;
+}
+
+/* Empty box design */
+.empty {
+    text-align:center;
+    padding:30px;
+    opacity:.8;
+    font-size:15px;
+}
+</style>
+
+<h1 class="page-title">Attendance History</h1>
+<p class="subtitle">Your Daily Attendance Records</p>
+
+<div class="history-box">
+
+    {% if data and data|length > 0 %}
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            <td>{{ row.Date }}</td>
+            <td>{{ row.Time }}</td>
+            <td>
+                <span style="color:#4c8cff; font-weight:600; text-shadow:0 0 8px #4c8cff;">
+                    Present
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <div class="empty">No attendance records found.</div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+
+

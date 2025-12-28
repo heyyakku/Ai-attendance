@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <header style="margin-bottom: 40px;">
+        <h1 class="text-cyan">Employee Terminal</h1>
+        <p class="text-secondary">Personnel: <span class="text-magenta">{{ user }}</span> • Authorization: <span
+                class="text-cyan">GRANTED</span></p>
+    </header>
+
+    <div class="dashboard-grid">
+        <!-- Attendance Status -->
+        <div class="glass-card stat-card">
+            <div class="label">Today's Presence</div>
+            <div class="value text-cyan">PENDING</div>
+            <a href="/mark-attendance" class="btn btn-cyan"
+                style="margin-top: 20px; width: 100%; justify-content: center;">
+                <i class="fas fa-fingerprint"></i> MARK ATTENDANCE
+            </a>
+        </div>
+
+        <!-- Current Task -->
+        <div class="glass-card">
+            <h3 class="text-magenta" style="margin-bottom: 15px;"><i class="fas fa-thumbtack"></i> ACTIVE MISSION</h3>
+            {% if task %}
+            <div
+                style="background: rgba(255, 0, 255, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255, 0, 255, 0.2);">
+                <div style="font-size: 18px; font-weight: 600;">{{ task.task }}</div>
+                <div style="margin-top: 10px; font-size: 13px; color: var(--text-secondary);">
+                    Assigned: {{ task.date }} | Status: <span class="text-cyan">{{ task.status }}</span>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-secondary">No active missions assigned yet. Stand by for admin instructions.</p>
+            {% endif %}
+
+            <form action="/update-task" method="POST" style="margin-top: 20px;">
+                <select name="status" class="input-field" style="margin-bottom: 10px;">
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Stuck">Stuck / Blocked</option>
+                </select>
+                <button type="submit" class="btn btn-outline" style="width: 100%; justify-content: center;">
+                    UPDATE STATUS
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stats / History -->
+    <div class="glass-card" style="margin-top: 30px;">
+        <h3 class="text-cyan" style="margin-bottom: 20px;"><i class="fas fa-chart-bar"></i> PERFORMANCE OVERVIEW</h3>
+        <div
+            style="height: 100px; display: flex; align-items: flex-end; gap: 10px; padding: 10px; background: rgba(0, 242, 255, 0.02); border-radius: 10px;">
+            <div style="flex: 1; height: 80%; background: var(--neon-cyan); opacity: 0.3; border-radius: 4px;"></div>
+            <div style="flex: 1; height: 60%; background: var(--neon-cyan); opacity: 0.5; border-radius: 4px;"></div>
+            <div style="flex: 1; height: 90%; background: var(--neon-magenta); opacity: 0.7; border-radius: 4px;"></div>
+            <div style="flex: 1; height: 40%; background: var(--neon-cyan); opacity: 0.4; border-radius: 4px;"></div>
+            <div style="flex: 1; height: 70%; background: var(--neon-cyan); opacity: 0.6; border-radius: 4px;"></div>
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+            <a href="/task-history" class="text-cyan" style="text-decoration: none; font-size: 14px;">
+                <i class="fas fa-external-link-alt"></i> VIEW FULL HISTORY ARCHIVE
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

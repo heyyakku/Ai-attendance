@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* CARD STYLE */
+.att-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(76,140,255,0.3);
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+    max-width: 480px;
+    margin: auto;
+    margin-top: 60px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 25px rgba(76,140,255,0.3);
+    animation: fadeIn 0.7s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; transform: translateY(15px); }
+    to { opacity:1; transform: translateY(0); }
+}
+
+.att-title {
+    font-size: 26px;
+    color: #4c8cff;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-shadow: 0 0 12px rgba(76,140,255,0.5);
+}
+
+.att-sub {
+    color: #9bb5ff;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+.big-time {
+    font-size: 42px;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #4c8cff;
+    text-shadow: 0 0 18px rgba(76,140,255,0.7);
+}
+
+.punch-btn {
+    background:#4c8cff;
+    border:none;
+    padding:14px 26px;
+    border-radius:10px;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 0 12px rgba(76,140,255,0.6);
+}
+.punch-btn:hover {
+    background:#2a6be6;
+    box-shadow:0 0 18px #4c8cff;
+}
+
+.success-circle {
+    width: 90px;
+    height: 90px;
+    background: rgba(76,140,255,0.15);
+    border: 2px solid rgba(76,140,255,0.4);
+    border-radius: 50%;
+    margin: auto;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 25px rgba(76,140,255,0.3);
+}
+
+.success-circle i {
+    font-size: 40px;
+    color: #4c8cff;
+    text-shadow: 0 0 12px rgba(76,140,255,0.5);
+}
+</style>
+
+<div class="att-card">
+
+    <div class="success-circle">
+        <i class="fas fa-fingerprint"></i>
+    </div>
+
+    <h2 class="att-title">Manual Attendance Punch</h2>
+
+    <div class="att-sub">
+        Hello <b>{{ session['username'] }}</b>,  
+        please mark your attendance.
+    </div>
+
+    <div class="big-time" id="liveClock">--:--:--</div>
+
+    <form method="POST">
+        <button class="punch-btn">Mark Attendance</button>
+    </form>
+
+</div>
+
+
+<script>
+function updateClock() {
+    let now = new Date();
+    document.getElementById("liveClock").innerText =
+        now.toLocaleTimeString();
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+{% endblock %}

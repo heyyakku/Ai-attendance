@@ -1,0 +1,10 @@
+flask
+pandas
+firebase-admin
+gunicorn
+opencv-python-headless
+mtcnn
+keras-facenet
+tensorflow-cpu
+openpyxl
+xlsxwriter

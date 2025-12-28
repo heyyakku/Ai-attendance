@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="animate__animated animate__fadeIn">
+    <header style="margin-bottom: 40px;">
+        <h1 class="text-cyan">Operational Dashboard <span style="font-weight: 300; opacity: 0.5;">v2.0</span></h1>
+        <p class="text-secondary">Welcome back, <span class="text-magenta">{{ user }}</span> • System Time: <span
+                id="clock" class="text-cyan">--:--:--</span></p>
+    </header>
+
+    <div class="dashboard-grid">
+        <!-- Stat Cards -->
+        <div class="glass-card stat-card animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
+            <div class="label">Daily Attendance</div>
+            <div class="value text-cyan">{{ count }}</div>
+            <div class="text-secondary" style="font-size: 12px;">Active Personnel Today</div>
+        </div>
+
+        <div class="glass-card stat-card animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
+            <div class="label">System Status</div>
+            <div class="value text-magenta">ACTIVE</div>
+            <div class="text-secondary" style="font-size: 12px;">All Core Modules Online</div>
+        </div>
+
+        <div class="glass-card stat-card animate__animated animate__zoomIn" style="animation-delay: 0.3s;">
+            <div class="label">Live Feed</div>
+            <div class="text-cyan" style="font-size: 24px; font-weight: 600; margin-top: 15px;">
+                <i class="fas fa-video"></i> ENCRYPTED
+            </div>
+            <div class="text-secondary" style="font-size: 12px; margin-top: 12px;">Monitoring Entrance A1</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid" style="margin-top: 30px;">
+        <!-- Camera Section -->
+        <div class="glass-card" style="grid-column: span 1.5;">
+            <h3 class="text-cyan" style="margin-bottom: 20px;"><i class="fas fa-camera"></i> REAL-TIME VISUAL CORE</h3>
+            <div class="camera-container">
+                <img id="videoFeed" src="{{ url_for('video_feed') }}" alt="Feed Offline">
+                <div
+                    style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 20px; font-size: 10px; color: #00f2ff; border: 1px solid #00f2ff;">
+                    <span class="pulse">●</span> LIVE FEED
+                </div>
+            </div>
+            <div class="camera-controls">
+                <button class="btn btn-cyan" onclick="controlCamera('start')">
+                    <i class="fas fa-play"></i> INITIALIZE
+                </button>
+                <button class="btn btn-magenta" onclick="controlCamera('stop')">
+                    <i class="fas fa-stop"></i> TERMINATE
+                </button>
+            </div>
+        </div>
+
+        <!-- Live Attendance Log -->
+        <div class="glass-card" style="overflow-x: auto;">
+            <h3 class="text-magenta" style="margin-bottom: 20px;"><i class="fas fa-list-ul"></i> LIVE ATTENDANCE LOG
+            </h3>
+            <table class="custom-table" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th>Personnel</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceTable">
+                    {% for log in attendance_logs %}
+                    <tr>
+                        <td class="text-cyan">{{ log.Name }}</td>
+                        <td>{{ log.Date }}</td>
+                        <td class="text-secondary">{{ log.Time }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-secondary" style="text-align: center;">Waiting for scans...</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="/report" class="btn btn-outline small" style="width: 100%; justify-content: center;">
+                    VIEW FULL HISTORY
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateClock() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString();
+        document.getElementById('clock').textContent = timeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function controlCamera(action) {
+        fetch(`/${action}_camera`, { method: 'POST' })
+            .then(res => {
+                if (res.ok) {
+                    const img = document.getElementById('videoFeed');
+                    if (action === 'start') {
+                        img.src = "{{ url_for('video_feed') }}?" + new Date().getTime();
+                    } else {
+                        img.src = "";
+                    }
+                }
+            });
+    }
+</script>
+{% endblock %}
